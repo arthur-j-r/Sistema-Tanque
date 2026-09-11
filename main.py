@@ -2,11 +2,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 class SistemaTanque:
-    def __init__(self, ts, vo, qin, qout, N):
+    def __init__(self, ts, vo, qin, N,c):
         self.ts = ts
+        self.c = c
         self.vo = vo
         self.qin = qin
-        self.qout = qout
         self.N = N
 
     def vetor_tempo(self):
@@ -17,7 +17,8 @@ class SistemaTanque:
         volume[0] = self.vo
 
         for k in range(self.N):
-            volume[k + 1] = volume[k] + self.ts * (self.qin - self.qout)
+            q_out = self.c * volume[k]
+            volume[k + 1] = volume[k] + self.ts * (self.qin - q_out)
             
         return volume
 
@@ -35,5 +36,5 @@ class SistemaTanque:
         plt.show()
 
 if __name__ == "__main__":
-    iniciar = SistemaTanque(ts=1, vo=100, qin=5, qout=2, N=20)
+    iniciar = SistemaTanque(ts=1, vo=0, qin=5, N=50,c=0.1)
     iniciar.printar()
